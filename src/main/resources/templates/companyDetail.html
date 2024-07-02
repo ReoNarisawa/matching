@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Details</title>
+    <link rel="stylesheet" th:href="@{/css/companyDetail.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <div class="container company-container">
+            <div class="header">
+                <h1>My Page</h1>
+            </div>
+            <div class="company-info">
+                <div class="company-image-container">
+                    <img src="/img/default-company.png" alt="Company Icon" class="company-icon">
+                </div>
+                <div class="company-details" th:if="${company != null}">
+                    <p><strong>施設名:</strong> <span th:text="${company.companyName} ?: ''"></span></p>
+                    <p><strong>電話番号:</strong> <span th:text="${company.tel} ?: ''"></span></p>
+                    <p><strong>メールアドレス:</strong> <span th:text="${company.email} ?: ''"></span></p>
+                    <p><strong>住所:</strong> <span th:text="${company.address} ?: ''"></span></p>
+                    <p><strong>施設種類:</strong> <span th:text="${company.facilityType} ?: ''"></span></p>
+                    <p><strong>登録日:</strong> <span th:text="${company.companyRegistered != null ? #dates.format(company.companyRegistered, 'yyyy-MM-dd') : ''}"></span></p>
+                    <button id="editButton">edit</button>
+                    <button id="backButton" type="button">back</button>
+                </div>
+            </div>
+        </div>
+        <div class="container chat-container">
+            <div class="header">
+                <h1>Chat List</h1>
+            </div>
+            <div class="chat-list">
+                <!-- チャットリストの内容をここに追加 -->
+            </div>
+        </div>
+    </div>
+    
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Edit company information</h2>
+            </div>
+            <div class="modal-body">
+			    <form id="editForm" th:action="@{/companyDetail/update}" th:object="${companyUpdateQuery}" method="post">
+			        <input type="hidden" th:field="*{companyId}" />
+			        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			        <label for="companyName">施設名:</label>
+			        <input type="text" id="companyName" th:field="*{companyName}" required /><br>
+			        <label for="tel">電話番号:</label>
+			        <input type="tel" id="tel" th:field="*{tel}" /><br>
+			        <label for="email">メールアドレス:</label>
+			        <span th:text="${companyUpdateQuery.email} ?: ''"></span>
+			        <input type="hidden" th:field="*{email}" /><br>
+			        <label for="address">住所:</label>
+			        <input type="text" id="address" th:field="*{address}" /><br>
+			        <label for="facilityType">施設種類:</label>
+			        <input type="text" id="facilityType" th:field="*{facilityType}" /><br>
+			        <label for="companyRegistered">登録日:</label>
+			        <span th:text="${companyUpdateQuery.companyRegistered}"></span>
+			        <input type="hidden" th:field="*{companyRegistered}" />
+			        <div class="modal-footer">
+			            <button id="saveButton" type="submit">save</button>
+			        </div>
+			    </form>
+			</div>
+        </div>
+    </div>
+    <script th:src="@{/js/modal.js}"></script>
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = '/companyIndex';
+        });
+    </script>
+</body>
+</html>

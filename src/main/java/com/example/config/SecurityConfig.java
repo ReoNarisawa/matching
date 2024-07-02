@@ -7,10 +7,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
-@EnableWebSecurity // Webセキュリティを有効にすることを示す
+@EnableWebSecurity //websecurityの有効化
 public class SecurityConfig {
 
     @Bean // このメソッドの返り値をSpringのBeanとして登録
@@ -23,21 +23,30 @@ public class SecurityConfig {
         http
         	.authorizeHttpRequests(authorizeRequests ->  // 認証リクエストを設定
                 authorizeRequests
-                    .requestMatchers("/login", "/register").permitAll() // "/login"と"/register"へのリクエストは認証なしで許可
+                    .requestMatchers("/login", "/register", "/forgot", "/js/**", "css/**").permitAll() // リクエストは認証なしで許可
+                    .requestMatchers("/userDetail/**", "/companyDetail/**").authenticated()
                     .anyRequest().authenticated() // それ以外の全てのリクエストは認証が必要
             )
             .formLogin(formLogin ->  // フォームベースのログインを設定
                 formLogin
                     .loginPage("/login") // ログインページのURLを設定
+                    .loginProcessingUrl("/login")
+                    .successHandler(authenticationSuccessHandler()) // カスタム成功ハンドラーの追加
                     .permitAll() // ログインページは認証なしで許可
             )
             .logout(logout ->  // ログアウトを設定
-                logout
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // ログアウトのリクエストURLを設定
+            logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout")
+                .permitAll()
+                .invalidateHttpSession(true)
             );
 
         return http.build(); // 上記の設定を反映してHttpSecurityオブジェクトをビルド
     }
-
-    // 他のセキュリティ設定が必要な場合は、ここに追加
+    
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
 }

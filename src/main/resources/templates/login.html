@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+	<script th:inline="javascript">
+        // メッセージ変数をJavaScriptに渡す
+        var message = /*[[${message}]]*/ null; //　登録完了
+        var error = /*[[${param.error}]]*/ false; // 間違い
+        var logoutMessage = /*[[${logoutMessage}]]*/ false;
+    </script>
+    <script src="/js/login.js"></script>
 </head>
 <body>
-    <div th:if="${param.error}">
-        <p>Invalid username and password.</p>
-    </div>
-    <div th:if="${param.logout}">
-        <p>You have been logged out.</p>
-    </div>
-    <form th:action="@{/login}" method="post">
-    
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <div>
-            <label>Username: </label>
-            <input type="text" name="username" required/>
+	<div id="login" class="login-form-container">
+        <header>LOGIN</header>
+        <fieldset>
+            <form th:action="@{/login}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div class="input-wrapper">
+                	<!-- Spring Securityのデフォルト設定でusernameを使用 -->      	
+                    <input type="text" id="username" name="username" placeholder="your@email.com" required/>
+                </div>
+                <div class="input-wrapper">
+                	<!-- Spring Securityのデフォルト設定でpasswordを使用 -->
+                    <input type="password" id="password" name="password" placeholder="password" required/>
+                </div>
+                <button type="submit" id="login-button">LOGIN</button>
+            </form>
+        </fieldset>
+        <div class="form-footer">
+            <p><a th:href="@{/register}">Create an account</a></p>
+            <p><a th:href="@{/forgot}">Forgot password?</a></p>
         </div>
-        <div>
-            <label>Password: </label>
-            <input type="password" name="password" required/>
-        </div>
-        <button type="submit">Login</button>
-    </form>
-    <p>
-        Don't have an account? <a th:href="@{/register}">Register</a>  <!-- 新規アカウント作成リンク -->
-    </p>
+    </div>
 </body>
 </html>
-

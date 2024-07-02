@@ -1,0 +1,91 @@
+body {
+  background-color: #ACAFB8;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+  font-size: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-form-container {
+  width: 270px;
+  border-radius: 3px;
+  background-color: #272E38;
+  padding: 20px;
+  text-align: center;
+}
+
+.login-form-container header {
+  background-color: #202731;
+  color: #C5C6C8;
+  padding: 1.5em;
+  margin: -20px -20px 20px -20px;
+  border-radius: 3px 3px 0 0;
+}
+
+.login-form-container fieldset {
+  border: none;
+}
+
+.input-wrapper {
+  margin: 1.5em auto;
+  border-bottom: 1px solid #FC7148;
+  width: 80%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  line-height: 2;
+  background-color: transparent;
+  border: none;
+  padding: .6em .5em;
+  outline: 0;
+  color: #9EA2AB;
+}
+
+.input-wrapper input::placeholder {
+  color: #9EA2AB;
+}
+
+button {
+  outline: 0;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  background-color: #FC7148;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  width: 80%;
+  padding: 1em 0;
+  margin: 2em auto;
+  display: block;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #e65342;
+}
+
+.form-footer {
+  margin-top: 1em;
+  font-size: 0.9em;
+}
+
+.form-footer a {
+  color: #8c8c8c;
+  text-decoration: none;
+  transition: border-color 0.3s;
+}
+
+.form-footer a:hover {
+  border-bottom: 1px dotted #8c8c8c;
+}
+
+.message p {
+  margin: 1em 0;
+}

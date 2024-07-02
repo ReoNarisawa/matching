@@ -1,51 +1,59 @@
 package com.example.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.entity.LoginUser;
-import com.example.entity.LoginUserDto;
-import com.example.repository.UserRepository;
-
-import jakarta.transaction.Transactional;
+import com.example.entity.Users;
+import com.example.model.UserUpdateQuery;
+import com.example.repository.UsersRepository;
 
 @Service
-public class UserService implements UserDetailsService {
-	
-    @Autowired // Springが自動的にUserRepositoryの実装を注入
-    private UserRepository userRepository;
+public class UserService {
 
-    @Autowired // Springが自動的にPasswordEncoderの実装を注入
-    private PasswordEncoder passwordEncoder;
-    
-    @Override // UserDetailsServiceインターフェースのメソッドを上書き
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LoginUser user = userRepository.findByUsername(username); // ユーザー名でユーザーを検索
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found"); // ユーザーが見つからない場合、例外をスロー
+    @Autowired
+    private UsersRepository usersRepository;
+
+    public Users findByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
+    public UserUpdateQuery getUserDto(Users user) {
+        UserUpdateQuery uuq = new UserUpdateQuery();
+        uuq.setUserId(user.getId());
+        uuq.setLastName(user.getLastName());
+        uuq.setFirstName(user.getFirstName());
+        uuq.setBirth(user.getBirth() != null ? new SimpleDateFormat("yyyy-MM-dd").format(user.getBirth()) : null);
+        uuq.setSex(user.getSex());
+        uuq.setTel(user.getTel());
+        uuq.setEmail(user.getEmail());
+        uuq.setAddress(user.getAddress());
+        uuq.setJobtype(user.getJobtype());
+        uuq.setUserRegistered(user.getUserRegistered() != null ? new SimpleDateFormat("yyyy-MM-dd").format(user.getUserRegistered()) : null);
+        return uuq;
+    }
+
+    @Transactional
+    public void updateUser(UserUpdateQuery uuq) {
+        Users user = usersRepository.findByEmail(uuq.getEmail());
+        if (user != null) {
+            user.setLastName(uuq.getLastName());
+            user.setFirstName(uuq.getFirstName());
+            try {
+                user.setBirth(uuq.getBirth() != null ? new SimpleDateFormat("yyyy-MM-dd").parse(uuq.getBirth()) : null);
+                user.setUserRegistered(uuq.getUserRegistered() != null ? new SimpleDateFormat("yyyy-MM-dd").parse(uuq.getUserRegistered()) : null);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            user.setSex(uuq.getSex());
+            user.setTel(uuq.getTel());
+            user.setEmail(uuq.getEmail());
+            user.setAddress(uuq.getAddress());
+            user.setJobtype(uuq.getJobtype());
+            usersRepository.save(user);
         }
-        return new UserPrincipal(user); // ユーザーが見つかった場合、UserPrincipalを作成し返す
     }
-
-    //新たにメソッドを追加
-    public LoginUser findByUsername(String username) {
-        return userRepository.findByUsername(username); // ユーザー名でユーザーを検索し返す
-    }
-
-    @Transactional // トランザクションを開始します。メソッドが終了したらトランザクションがコミットされる。
-    public void save(LoginUserDto userDto) {
-        // UserDtoからUserへの変換
-        LoginUser user = new LoginUser();
-        user.setUsername(userDto.getUsername());
-        // パスワードをハッシュ化してから保存
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setEmail(userDto.getEmail());
-
-        // データベースへの保存
-        userRepository.save(user); // UserRepositoryを使ってユーザーをデータベースに保存
-    }   
 }

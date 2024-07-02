@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>TopPage</title>
+	<link rel="stylesheet" th:href="@{/css/companyIndex.css}">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<header>
+        <div class="header-left">
+            <a th:href="@{/companyDetail}">
+                <img src="/img/company-icon.png" alt="Conpany Detail">
+                <span>My Page</span>
+            </a>
+        </div>
+        <div class="header-right">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">ログアウト</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="ユーザー名で検索">
+            <button type="button" onclick="searchUsers()">検索</button>
+        </div>
+        <div class="filter-sort-container">
+            <button type="button">並び替え</button>
+            <button type="button">絞り込み条件</button>
+        </div>
+        <div class="user-list" id="user-list">
+            <div th:each="user : ${users}" class="user-card" onclick="showUserModal(this)">
+                <img th:src="@{/img/default-user.png}" alt="User Image" class="user-image">
+                <h3 th:text="${user.lastName} + ' ' + ${user.firstName}"></h3>
+                <p th:text="${user.address}"></p>
+            </div>
+        </div>
+    </main>
+    
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>User Detail</h2>
+            </div>
+            <div class="modal-body">
+                <img id="modalUserImage" src="/img/default-user.png" alt="User Image" class="modal-user-image">
+                <h3 id="modalUserName"></h3>
+                <p id="modalUserAddress"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="chatButton" class="chat-button">Chat</button>
+                <button class="close-modal-button" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <script th:src="@{/js/companyIndex.js}"></script>
+</body>
+
+</html>

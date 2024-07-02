@@ -4,27 +4,41 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
-
-    @GetMapping("/login") // "/login"というURLに対するGETリクエストを処理
-    public String login() {
-        return "login";  // login.htmlを表示
-    }
-    
-    @GetMapping("/") // ルートURL ("/") に対するGETリクエストを処理
-    public String redirectToIndex() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 現在のユーザーの認証情報を取得
-        if (authentication != null && authentication.isAuthenticated()) { // ユーザーがログインしている場合
-            return "redirect:/index";  // "/index"にリダイレクト
+	
+	@GetMapping("/login") //"/login"というURLに対するGETリクエストを処理
+	public String login() {
+		return "login";
+	}
+	
+	@GetMapping("/") // ルートURL ("/") に対するGETリクエストを処理
+	public String redirectToIndex() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication(); //現在のユーザー認証情報を取得
+		if(auth != null && auth.isAuthenticated()) {
+            String role = auth.getAuthorities().iterator().next().getAuthority();
+            if ("COMPANY".equals(role)) {
+                return "redirect:/companyIndex";
+            } else {
+                return "redirect:/userIndex";
+            }
         }
-        return "redirect:/login"; // ユーザーがログインしていない場合、"/login"にリダイレクト
-    }
-    
-    @GetMapping("/index") // "/index"というURLに対するGETリクエストを処理
-    public String index() {
-        return "index"; // index.htmlを表示
+        return "redirect:/login";
+	}
+	
+	@PostMapping("/login")
+    public String loginProcessing() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated()) {
+            String role = auth.getAuthorities().iterator().next().getAuthority();
+            if ("COMPANY".equals(role)) {
+                return "redirect:/companyIndex";
+            } else {
+                return "redirect:/userIndex";
+            }
+        }
+        return "login";
     }
 }
