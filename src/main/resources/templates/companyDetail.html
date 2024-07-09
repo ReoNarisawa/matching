@@ -35,7 +35,11 @@
                 <h1>Chat List</h1>
             </div>
             <div class="chat-list">
-                <!-- チャットリストの内容をここに追加 -->
+                <ul>
+                    <li th:each="chatInfo : ${ongoingChats}">
+                        <a href="javascript:void(0)" th:attr="onclick='startChat(' + ${chatInfo.userId} + ')'" th:text="${chatInfo.userName}"></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -73,6 +77,20 @@
     </div>
     <script th:src="@{/js/modal.js}"></script>
     <script>
+        function startChat(userId) {
+            console.log("Starting chat with user ID:", userId);
+            fetch(`/getChatGroupId?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.chatGroupId && data.chatGroupId !== -1) {
+                        window.location.href = `/chat?chatGroupId=${data.chatGroupId}`;
+                    } else {
+                        console.error('Error: chatGroupId not found');
+                    }
+                })
+                .catch(error => console.error('Error fetching chatGroupId:', error));
+        }
+
         document.getElementById('backButton').addEventListener('click', function() {
             window.location.href = '/companyIndex';
         });

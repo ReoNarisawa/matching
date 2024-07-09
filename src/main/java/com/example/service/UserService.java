@@ -2,11 +2,14 @@ package com.example.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.entity.Users;
 import com.example.model.UserUpdateQuery;
 import com.example.repository.UsersRepository;
@@ -19,6 +22,26 @@ public class UserService {
 
     public Users findByEmail(String email) {
         return usersRepository.findByEmail(email);
+    }
+    
+    public List<Users> findByLastNameAndFirstName(String lastName, String firstName) {
+    	return usersRepository.findByLastNameAndFirstName(lastName, firstName);
+    }
+    
+    public Users findById(Integer id) {
+        return usersRepository.findById(id.longValue()).orElse(null);
+    }
+    
+    public Integer getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            Users user = usersRepository.findByEmail(userDetails.getUsername());
+            if (user != null) {
+                return user.getId();
+            }
+        }
+        return null;
     }
 
     public UserUpdateQuery getUserDto(Users user) {
@@ -55,5 +78,10 @@ public class UserService {
             user.setJobtype(uuq.getJobtype());
             usersRepository.save(user);
         }
+    }
+    
+    public String findEmailById(Integer id) {
+        Users user = usersRepository.findById(id.longValue()).orElse(null);
+        return (user != null) ? user.getEmail() : null;
     }
 }

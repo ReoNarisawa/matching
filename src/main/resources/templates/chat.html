@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Page</title>
+    <link rel="stylesheet" th:href="@{/css/chat.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Chat with <span th:text="${recipientName}"></span></h1>
+        </div>
+        <div th:if="${session.user != null}" style="display:none;">
+            <p id="userEmail" th:text="${session.user.email}">Email</p>
+        </div>
+        <div th:if="${session.user == null}">
+            <p>User is not logged in</p>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div th:each="message : ${chatMessages}">
+                <div th:classappend="'chat-message ' + (${message.sender} == ${session.user.email} ? 'sent' : 'received')">
+                    <p th:text="${message.content} + ' | ' + ${message.timestamp}">Message</p>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Enter your message...">
+            <input type="hidden" id="chatGroupId" th:value="${chatGroupId}"/>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script th:src="@{/js/chat.js}"></script>
+</body>
+</html>

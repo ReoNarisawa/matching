@@ -49,37 +49,63 @@ header {
 
 main {
     padding: 20px;
-}
-
-.search-container {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
-.search-container input {
+.search-sort-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.search-container, .filter-sort-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.search-form, .sort-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.search-form input {
     width: 300px;
     padding: 10px;
     margin-right: 10px;
 }
 
-.filter-sort-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.filter-sort-container button {
+.button, .sort-options .button {
     background-color: #444;
     color: white;
     border: none;
     padding: 10px 20px;
-    margin: 0 10px;
     cursor: pointer;
 }
 
-.filter-sort-container button:hover {
+.button:hover, .sort-options .button:hover {
     background-color: #555;
+}
+
+.sort-button {
+    margin-top: 10px;
+}
+
+.sort-options {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sort-options .button {
+    margin: 5px 0;
 }
 
 .user-list {

@@ -1,5 +1,7 @@
 package com.example.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity //websecurityの有効化
@@ -24,7 +29,7 @@ public class SecurityConfig {
         	.authorizeHttpRequests(authorizeRequests ->  // 認証リクエストを設定
                 authorizeRequests
                     .requestMatchers("/login", "/register", "/forgot", "/js/**", "css/**").permitAll() // リクエストは認証なしで許可
-                    .requestMatchers("/userDetail/**", "/companyDetail/**").authenticated()
+                    .requestMatchers("/userDetail/**", "/companyDetail/**", "/chat").authenticated() //認証されていればリクエストを許可
                     .anyRequest().authenticated() // それ以外の全てのリクエストは認証が必要
             )
             .formLogin(formLogin ->  // フォームベースのログインを設定
@@ -48,5 +53,17 @@ public class SecurityConfig {
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
+    }
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

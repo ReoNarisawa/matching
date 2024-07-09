@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,26 @@ public class CompanyService {
 
     public Companies findByEmail(String email) {
         return companiesRepository.findByEmail(email);
+    }
+    
+    public Companies findByCompanyName(String companyName) {
+        return companiesRepository.findByCompanyName(companyName);
+    }
+    
+    public Companies findById(Integer id) {
+        return companiesRepository.findById(id.longValue()).orElse(null);
+    }
+    
+    public Integer getCurrentCompanyId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            Companies company = companiesRepository.findByEmail(userDetails.getUsername());
+            if (company != null) {
+                return company.getId();
+            }
+        }
+        return null;
     }
 
     public CompanyUpdateQuery getCompanyDto(Companies company) {
@@ -50,5 +73,10 @@ public class CompanyService {
             }
             companiesRepository.save(company);
         }
+    }
+    
+    public String findEmailById(Integer id) {
+        Companies company = companiesRepository.findById(id.longValue()).orElse(null);
+        return (company != null) ? company.getEmail() : null;
     }
 }

@@ -67,8 +67,8 @@ public class LoginDataPrincipal implements UserDetails {
 
     
     //使用しないメソッド(オーバーライドで必要)
-	@Override
-	public String getUsername() {
-		return null;
-	}
+    @Override
+    public String getUsername() {
+        return getEmail(); // getUsername() メソッドで email を返す
+    }
 }
