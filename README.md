@@ -55,64 +55,64 @@ FreamWork：Spring Boot, security<br>
 
 ## データベース作成クエリ
 ```mysql
-CREATE TABLE chat_group (<br>
-    id INT NOT NULL AUTO_INCREMENT,<br>
-    user_id INT,<br>
-    company_id INT,<br>
-    PRIMARY KEY (id),<br>
-    INDEX user_id_idx (user_id),<br>
-    INDEX company_id_idx (company_id)<br>
-);<br>
-<br>
-CREATE TABLE chat_message (<br>
-    id BIGINT NOT NULL AUTO_INCREMENT,<br>
-    content VARCHAR(255),<br>
-    timestamp VARCHAR(255) NOT NULL,<br>
-    chat_groupid INT,<br>
-    recipient VARCHAR(255),<br>
-    sender VARCHAR(255),<br>
-    PRIMARY KEY (id),<br>
-    INDEX chat_groupid_idx (chat_groupid)<br>
-);<br>
-<br>
-CREATE TABLE companies (<br>
-    id INT NOT NULL AUTO_INCREMENT,<br>
-    companyname VARCHAR(255),<br>
-    tel VARCHAR(255),<br>
-    email VARCHAR(255),<br>
-    address VARCHAR(255),<br>
-    facilitytype VARCHAR(255),<br>
-    company_registered DATETIME(6),<br>
-    PRIMARY KEY (id)<br>
-);<br>
-<br>
-CREATE TABLE login_data (<br>
-    id INT NOT NULL AUTO_INCREMENT,<br>
-    username VARCHAR(255) NOT NULL,<br>
-    password VARCHAR(255) NOT NULL,<br>
-    email VARCHAR(255) NOT NULL,<br>
-    role INT,<br>
-    PRIMARY KEY (id)<br>
-);<br>
-<br>
-CREATE TABLE role (<br>
-    id INT NOT NULL AUTO_INCREMENT,<br>
-    name VARCHAR(32),<br>
-    PRIMARY KEY (id)<br>
-);<br>
-<br>
-CREATE TABLE users (<br>
-    id INT NOT NULL AUTO_INCREMENT,<br>
-    last_name VARCHAR(255),<br>
-    first_name VARCHAR(255),<br>
-    birth DATETIME(6),<br>
-    sex VARCHAR(255),<br>
-    tel VARCHAR(255),<br>
-    email VARCHAR(255),<br>
-    address VARCHAR(255),<br>
-    jobtype VARCHAR(255),<br>
-    user_registered DATETIME(6),<br>
-    PRIMARY KEY (id)<br>
+CREATE TABLE chat_group (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT,
+    company_id INT,
+    PRIMARY KEY (id),
+    INDEX user_id_idx (user_id),
+    INDEX company_id_idx (company_id)
+);
+
+CREATE TABLE chat_message (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    content VARCHAR(255),
+    timestamp VARCHAR(255) NOT NULL,
+    chat_groupid INT,
+    recipient VARCHAR(255),
+    sender VARCHAR(255),
+    PRIMARY KEY (id),
+    INDEX chat_groupid_idx (chat_groupid)
+);
+
+CREATE TABLE companies (
+    id INT NOT NULL AUTO_INCREMENT,
+    companyname VARCHAR(255),
+    tel VARCHAR(255),
+    email VARCHAR(255),
+    address VARCHAR(255),
+    facilitytype VARCHAR(255),
+    company_registered DATETIME(6),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE login_data (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    role INT,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE role (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(32),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    last_name VARCHAR(255),
+    first_name VARCHAR(255),
+    birth DATETIME(6),
+    sex VARCHAR(255),
+    tel VARCHAR(255),
+    email VARCHAR(255),
+    address VARCHAR(255),
+    jobtype VARCHAR(255),
+    user_registered DATETIME(6),
+    PRIMARY KEY (id)
 );
 ```
 <br>
