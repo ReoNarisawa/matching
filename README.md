@@ -54,6 +54,7 @@ FreamWork：Spring Boot, security<br>
 <br>
 
 ## データベース作成クエリ
+```mysql
 CREATE TABLE chat_group (<br>
     id INT NOT NULL AUTO_INCREMENT,<br>
     user_id INT,<br>
@@ -112,7 +113,9 @@ CREATE TABLE users (<br>
     jobtype VARCHAR(255),<br>
     user_registered DATETIME(6),<br>
     PRIMARY KEY (id)<br>
-);<br>
+);
+```
+<br>
 <br>
 <br>
 ## 今後の課題
