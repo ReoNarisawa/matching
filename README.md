@@ -55,6 +55,10 @@ FreamWork：Spring Boot, security<br>
 
 ## データベース作成クエリ
 ```mysql
+CREATE DATABASE matching;
+
+USE matching;
+
 CREATE TABLE chat_group (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT,
