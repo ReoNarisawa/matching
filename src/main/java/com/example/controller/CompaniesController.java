@@ -42,9 +42,9 @@ public class CompaniesController {
         Collator collator = Collator.getInstance(Locale.JAPANESE);
         Comparator<Companies> comparator = Comparator.comparing(company -> {
             if ("address".equals(sortField)) {
-                return company.getAddress();
+                return company.getAddress() != null ? company.getAddress() : "";
             } else if ("companyName".equals(sortField)) {
-                return company.getCompanyName();
+                return company.getCompanyName() != null ? company.getCompanyName() : "";
             } else {
                 return company.getId().toString(); // デフォルトはIDでソート
             }

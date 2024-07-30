@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
         	.authorizeHttpRequests(authorizeRequests ->  // 認証リクエストを設定
                 authorizeRequests
-                    .requestMatchers("/login", "/register", "/forgot", "/js/**", "css/**").permitAll() // リクエストは認証なしで許可
+                    .requestMatchers("/login", "/register", "/forgot", "/js/**", "/css/**", "/Matching/chat-websocket/**").permitAll() // リクエストは認証なしで許可
                     .requestMatchers("/userDetail/**", "/companyDetail/**", "/chat").authenticated() //認証されていればリクエストを許可
                     .anyRequest().authenticated() // それ以外の全てのリクエストは認証が必要
             )

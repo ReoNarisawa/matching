@@ -16,7 +16,7 @@
             </div>
             <div class="user-info">
                 <div class="user-image-container">
-                    <img src="/img/default-user.png" alt="User Icon" class="user-icon">
+                    <img th:src="@{/img/default-user.png}" alt="User Icon" class="user-icon">
                 </div>
                 <div class="user-details" th:if="${user != null}">
                     <p><strong>姓:</strong> <span th:text="${user.lastName} ?: ''"></span></p>
@@ -88,11 +88,11 @@
     <script>
         function startChat(companyId) {
             console.log("Starting chat with company ID:", companyId);
-            fetch(`/getChatGroupId?companyId=${companyId}`)
+            fetch(`/Matching/getChatGroupId?companyId=${companyId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.chatGroupId && data.chatGroupId !== -1) {
-                        window.location.href = `/chat?chatGroupId=${data.chatGroupId}`;
+                        window.location.href = `/Matching/chat?chatGroupId=${data.chatGroupId}`;
                     } else {
                         console.error('Error: chatGroupId not found');
                     }
@@ -101,7 +101,7 @@
         }
 
         document.getElementById('backButton').addEventListener('click', function() {
-            window.location.href = '/userIndex';
+            window.location.href = '/Matching/userIndex';
         });
     </script>
 </body>

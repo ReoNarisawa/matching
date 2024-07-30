@@ -28,11 +28,11 @@ window.onclick = function(event) {
 function startChat() {
 	const companyId = document.getElementById('modalCompanyId').value;
 	console.log("Starting chat with company ID:", companyId);
-	fetch(`/getChatGroupId?companyId=${companyId}`)
+	fetch(`/Matching/getChatGroupId?companyId=${companyId}`)
 		.then(response => response.json())
 		.then(data => {
 			if (data && data.chatGroupId && data.chatGroupId !== -1) {
-				window.location.href = `/chat?chatGroupId=${data.chatGroupId}`;
+				window.location.href = `/Matching/chat?chatGroupId=${data.chatGroupId}`;
 			} else {
 				console.error('Error: chatGroupId not found');
 			}

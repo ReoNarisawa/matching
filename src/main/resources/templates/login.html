@@ -8,9 +8,9 @@
         // メッセージ変数をJavaScriptに渡す
         var message = /*[[${message}]]*/ null; //　登録完了
         var error = /*[[${param.error}]]*/ false; // 間違い
-        var logoutMessage = /*[[${logoutMessage}]]*/ false;
+        var logoutMessage = /*[[${logoutMessage}]]*/ null; //ログアウトメッセージ
     </script>
-    <script src="/js/login.js"></script>
+    <script th:src="@{/js/login.js}"></script>
 </head>
 <body>
 	<div id="login" class="login-form-container">

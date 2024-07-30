@@ -1,7 +1,7 @@
 var stompClient = null;
 
 function connect() {
-	var socket = new SockJS('/chat-websocket');
+	var socket = new SockJS('/Matching/chat-websocket');
 	stompClient = Stomp.over(socket);
 	stompClient.connect({}, function(frame) {
 		console.log('Connected: ' + frame);

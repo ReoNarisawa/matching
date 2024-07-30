@@ -8,7 +8,7 @@
         // ページが読み込まれた時にメッセージが存在する場合はアラートを表示
         const emailExists = /*[[${emailExists}]]*/ false;
     </script>
-    <script src="/js/checkEmailExists.js"></script>
+    <script th:src="@{/js/checkEmailExists.js}"></script>
 </head>
 <body>
     <div id="register" class="register-form-container">

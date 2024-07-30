@@ -15,9 +15,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // ログインユーザーのロールを取得
         String role = authentication.getAuthorities().iterator().next().getAuthority();
         if ("COMPANY".equals(role)) {
-            response.sendRedirect("/companyIndex");
+            response.sendRedirect("/Matching/companyIndex");
         } else {
-            response.sendRedirect("/userIndex");
+            response.sendRedirect("/Matching/userIndex");
         }
     }
 }

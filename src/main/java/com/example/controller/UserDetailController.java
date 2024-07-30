@@ -54,7 +54,7 @@ public class UserDetailController {
                 model.addAttribute("user", new Users());
             }
         } else {
-            return "redirect:/login"; // ユーザーが認証されていない場合はログインページにリダイレクト
+            return "redirect:/Matching/login"; // ユーザーが認証されていない場合はログインページにリダイレクト
         }
         return "userDetail";
     }

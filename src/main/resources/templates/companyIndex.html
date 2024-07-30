@@ -12,7 +12,7 @@
 <body>
 	<header>
 		<div class="header-left">
-			<a th:href="@{/companyDetail}"> <img src="/img/company-icon.png" alt="Company Detail"> <span>My Page</span></a>
+			<a th:href="@{/companyDetail}"> <img th:src="@{/img/company-icon.png}" alt="Company Detail"> <span>My Page</span></a>
 		</div>
 		<div class="header-right">
 			<form th:action="@{/logout}" method="post">
@@ -51,7 +51,7 @@
 				</div>
 				<div class="modal-body">
 	                <input type="hidden" id="modalUserId" value="">
-	                <img id="modalUserImage" src="/img/default-user.png" alt="User Image" class="modal-user-image">
+	                <img id="modalUserImage" th:src="@{/img/default-user.png}" alt="User Image" class="modal-user-image">
 	                <h3 id="modalUserName"></h3>
 	                <p id="modalUserAddress"></p>
 	            </div>

@@ -20,12 +20,12 @@ public class LoginController {
 		if(auth != null && auth.isAuthenticated()) {
             String role = auth.getAuthorities().iterator().next().getAuthority();
             if ("COMPANY".equals(role)) {
-                return "redirect:/companyIndex";
+                return "redirect:/Matching/companyIndex";
             } else {
-                return "redirect:/userIndex";
+                return "redirect:/Matching/userIndex";
             }
         }
-        return "redirect:/login";
+        return "redirect:/Matching/login";
 	}
 	
 	@PostMapping("/login")
@@ -34,9 +34,9 @@ public class LoginController {
         if (auth != null && auth.isAuthenticated()) {
             String role = auth.getAuthorities().iterator().next().getAuthority();
             if ("COMPANY".equals(role)) {
-                return "redirect:/companyIndex";
+                return "redirect:/Matching/companyIndex";
             } else {
-                return "redirect:/userIndex";
+                return "redirect:/Matching/userIndex";
             }
         }
         return "login";

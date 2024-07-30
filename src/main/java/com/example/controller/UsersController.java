@@ -42,11 +42,11 @@ public class UsersController {
         Collator collator = Collator.getInstance(Locale.JAPANESE);
         Comparator<Users> comparator = Comparator.comparing(user -> {
             if ("address".equals(sortField)) {
-                return user.getAddress();
+                return user.getAddress() != null ? user.getAddress() : "";
             } else if ("firstName".equals(sortField)) {
-                return user.getFirstName();
+                return user.getFirstName() != null ? user.getFirstName() : "";
             } else if ("lastName".equals(sortField)) {
-                return user.getLastName();
+                return user.getLastName() != null ? user.getLastName() : "";
             } else {
                 return user.getId().toString(); // デフォルトはIDでソート
             }

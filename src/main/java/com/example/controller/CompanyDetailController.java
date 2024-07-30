@@ -54,7 +54,7 @@ public class CompanyDetailController {
                 model.addAttribute("company", new Companies());
             }
         } else {
-            return "redirect:/login"; // 企業が認証されていない場合はログインページにリダイレクト
+            return "redirect:/Matching/login"; // 企業が認証されていない場合はログインページにリダイレクト
         }
         return "companyDetail";
     }
